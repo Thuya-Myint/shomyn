@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/sm.png" />
+
+    <!-- Viewport config for full screen on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Fullscreen behavior on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Theme color for Android taskbar: match with login background -->
+    <meta name="theme-color" content="#f5f5f5" />
+
+    <title>Shomyn</title>
+  </head>
+
+  <body
+    style="
+      margin: 0;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    "
+  >
+    <div id="root" style="height: 100%"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
