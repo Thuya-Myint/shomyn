@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 const Login = () => {
     return (
         // main div
-        <div className='w-screen h-screen bg-login flex  justify-center items-center'>
+        <div className='w-screen h-screen bg-login flex overflow-hidden  justify-center items-center'>
             {/* image and form div */}
 
             <div className='grid sm:grid-cols-2 grid-cols-1  p-2  rounded-2xl sm:bg-white/30 xl:w-1/2 lg:w-2/3 md:w-[80%] w-[100%]'>
