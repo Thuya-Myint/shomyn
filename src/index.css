@@ -8,6 +8,10 @@
 }
 .bg-shopNow{
     background:url("./assets/images/shopNow.jpg") center;
+     background-size: contain;
+}
+.bg-banner{
+    background:url("./assets/images/ooorganize-2.svg") center;
      background-size: cover;
 }
 @font-face {
