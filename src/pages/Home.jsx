@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
+
+
 const Home = () => {
     const navigate = useNavigate()
 
@@ -11,11 +13,11 @@ const Home = () => {
         !userData && navigate("/login")
     }, [])
 
-
     return (
         <>
             <Navbar />
             <Banner />
+
         </>
     )
 }

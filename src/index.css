@@ -7,7 +7,7 @@
     background-size: cover;
 }
 .bg-shopNow{
-    background:url("./assets/images/shopNow.jpg") center;
+    background:url("./assets/images/airplane2.jpg") center;
      background-size: contain;
 }
 .bg-banner{
@@ -20,4 +20,16 @@
 }
 .quicksand{
     font-family: Quicksand;
+}
+.loginBtnAnimation{
+    width: 0%;
+    animation: loginBtnAnimate 3s ease-in infinite;
+}
+@keyframes loginBtnAnimate {
+    from{
+        width: 0%;
+    }
+    to{
+        width:100%;
+    }
 }

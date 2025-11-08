@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { setItemToLocalStorage } from '../helpers/helper'
 
 const Login = () => {
 
@@ -14,21 +17,13 @@ const Login = () => {
     const navigate = useNavigate()
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
-
-    useEffect(() => {
-        //JSON.parse() (convert string to object)
-        const userDataString = localStorage.getItem("user-data")
-        const userDataObject = JSON.parse(userDataString)
-        console.log("userData ", userDataObject)
-
-        // userDataObject?.rememberMe && navigate('/') 
-
-    }, [])
+    const [isLoading, setIsLoading] = useState(false)
 
 
-    const userLogin = () => {
-
+    const userLogin = async () => {
         try {
+
+            console.log("login user ------")
             if (username.trim() === "") {
                 return alert("❌ Username is Required!")
             } else if (!emailRegex.test(email)) {
@@ -36,23 +31,32 @@ const Login = () => {
             } else if (password.trim() === "") {
                 return alert("❌ Password is Required!")
             }
-            //login data valid
-            //JSON.strify (to change object to string)
-            const userDataString = JSON.stringify({
-                username: username,
+            setIsLoading(true)
+
+            const respone = await axios.post(login ? 'http://localhost:8080/api/v1/user/login' : 'http://localhost:8080/api/v1/user', {
+                name: username,
                 email: email,
-                rememberMe: rememberMe,
-                lastLoginDate: new Date()
+                password: password
             })
 
+            console.log("response user ----", respone.data)
+
+            if (respone.data.success) {
+                // toast.success(respone.data.message)
+                setItemToLocalStorage("user-data", respone.data.data)
+                setTimeout(() => {
+                    setIsLoading(false)
+                    navigate("/")
+                }, 3000);
 
 
-            //store data to localstorage (localStorage.setItem())
-            localStorage.setItem("user-data", userDataString)
-            navigate('/')
+            }
 
         } catch (error) {
-            alert("❌ Login Failed!")
+            const errorResponse = error
+            setIsLoading(false)
+            console.log("register error", errorResponse)
+            toast.error(errorResponse.response.data.message)
         }
 
     }
@@ -67,10 +71,7 @@ const Login = () => {
 
                 </div>
                 {/* form */}
-                <div className='quicksand p-4 flex flex-col gap-8' onSubmit={(e) => {
-                    e.preventDefault()
-                    userLogin()
-                }}>
+                <div className='quicksand p-4 flex flex-col gap-8' >
                     <h1 className='text-2xl'>
                         {
                             login ? ' Login as a user!' : 'Register as a user!'
@@ -158,11 +159,19 @@ const Login = () => {
                     </div>
 
                     {/* signup signin button */}
-                    <button className='bg-blue-400 px-8 py-2 rounded-lg text-white active:bg-blue-300'>
+
+
+                    <button className={`bg-blue-400 px-8 relative py-2 rounded-lg  ${isLoading ? 'animate-pulse' : ''} text-white active:bg-blue-300`}
+                        onClick={userLogin}>
                         {
                             login ? "Login" : "Register"
                         }
+                        <div className={`w-0 h-full rounded-lg absolute inset-0 bg-black/20 ${isLoading ? 'loginBtnAnimation' : ''}`}>
+
+                        </div>
                     </button>
+
+
 
                     {/* new user or old user singin signup */}
                     <div className='flex gap-1 mx-auto'>
@@ -194,7 +203,7 @@ const Login = () => {
                     </div>
                 </div>
 
-            </div>
+            </div >
         </div >
     )
 }

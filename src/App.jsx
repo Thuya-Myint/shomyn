@@ -4,9 +4,8 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Notfound from './pages/Notfound'
 import Products from './pages/Products'
-import AllProducts from './pages/AllProducts'
-import DealsProducts from './pages/DealsProducts'
-import NewProducts from './pages/NewProducts'
+import Cart from './pages/Cart'
+import { ToastContainer, toast } from 'react-toastify'
 const App = () => {
   return (
     <>
@@ -15,14 +14,21 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Home />} />
           <Route path='/products' element={<Products />} />
-          <Route path='/all-products' element={<AllProducts />} />
-          <Route path='/deal-products' element={<DealsProducts />} />
-          <Route path='/new-products' element={<NewProducts />} />
-
-
-
+          <Route path='/cart' element={<Cart />} />
           <Route path='/*' element={<Notfound />} />
         </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </BrowserRouter>
     </>
   )

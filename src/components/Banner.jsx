@@ -1,6 +1,6 @@
 import React from 'react'
 import watch from '../assets/images/watch.png'
-import { priceAndText, allCategories } from '../constants'
+import { priceAndText } from '../constants'
 import { Link } from 'react-router-dom'
 const Banner = () => {
     return (
@@ -14,9 +14,9 @@ const Banner = () => {
                         Simplify cross-border sales and scale your business with the platform built for global success.
                     </div>
 
-                    <button className='bg-[#dcff6a] active:opacity-60 text-black w-fit px-4 py-2 rounded-lg'>
+                    {/* <button className='bg-[#dcff6a] active:opacity-60 text-black w-fit px-4 py-2 rounded-lg'>
                         Start Selling Globally
-                    </button>
+                    </button> */}
 
 
                 </div>
@@ -51,15 +51,7 @@ const Banner = () => {
             </div>
 
             <div className='mt-10 text-2xl quicksand'>Browse by category</div>
-            <div className='mt-4 grid grid-cols-8 gap-4'>
-                {
-                    allCategories.map(cat =>
-                        <Link key={cat.id} to={'/products'} state={cat.category} className='bg-white text-black active:bg-white/40 p-2 text-center rounded-xl' >
-                            {cat.category}
-                        </Link>
-                    )
-                }
-            </div>
+
         </div>
     )
 }
