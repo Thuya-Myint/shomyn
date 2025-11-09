@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { navItems } from '../constants'
 import logo from '../assets/images/logo2.png'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 const Navbar = () => {
     const myScreenWidth = window.innerWidth
     const [isSideBarOpen, setIsSideBarOpen] = useState(false)
+    const navigate = useNavigate()
 
     return (
         <nav className='p-4 flex  w-full bg-black text-white justify-between items-center quicksand'>
-            <div className=' flex gap-2 items-cente'
+            <div className=' flex gap-2 items-center'
+                onClick={() => {
+                    navigate("/")
+                }}
             >
                 <img src={logo} alt="Shomyn logo" className='w-28 h-16 rounded-2xl'
                 />

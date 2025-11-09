@@ -33,17 +33,19 @@ const Login = () => {
             }
             setIsLoading(true)
 
-            const respone = await axios.post(login ? 'http://localhost:8080/api/v1/user/login' : 'http://localhost:8080/api/v1/user', {
+            const response = await axios.post(login ? 'http://localhost:8080/api/v1/user/login' : 'http://localhost:8080/api/v1/user', {
                 name: username,
                 email: email,
-                password: password
+                password: password,
+
             })
 
-            console.log("response user ----", respone.data)
+            console.log("response user ----", response.data)
 
-            if (respone.data.success) {
+            if (response.data.success) {
                 // toast.success(respone.data.message)
-                setItemToLocalStorage("user-data", respone.data.data)
+                setItemToLocalStorage("x-access-token", response.data.token)
+                setItemToLocalStorage("user-data", response.data.data)
                 setTimeout(() => {
                     setIsLoading(false)
                     navigate("/")
