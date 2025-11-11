@@ -17,43 +17,57 @@ export const CartProvider = ({ children }) => {
         if (storedCart) setCart(storedCart);
     }, []);
 
-    // Persist cart changes to localStorage
+    // Persist cart change
     useEffect(() => {
         setItemToLocalStorage(STORAGE_KEYS.CART, cart);
     }, [cart]);
 
-    // Add item to cart
+    /**
+     * Add item to cart with correct merging rule:
+     * Merge only when:
+     * - product ID matches
+     * - size matches
+     * - variant matches
+     */
     const addToCart = (item) => {
         setCart((prev) => {
-            const exists = prev.find((i) => i.id === item.id);
+            const exists = prev.find(
+                (i) =>
+                    i.id === item.id &&
+                    i.size === item.size &&
+                    i.variant === item.variant
+            );
 
             if (exists) {
                 return prev.map((i) =>
-                    i.id === item.id
+                    i.id === item.id &&
+                        i.size === item.size &&
+                        i.variant === item.variant
                         ? { ...i, qty: i.qty + (item.qty || 1) }
                         : i
                 );
             }
 
+            // push new item
             return [...prev, { ...item, qty: item.qty || 1 }];
         });
     };
 
-    // Update item quantity
-    const updateQty = (id, qty) => {
+    // Update quantity
+    const updateQty = (cartItemId, qty) => {
         setCart((prev) =>
             prev.map((item) =>
-                item.id === id ? { ...item, qty } : item
+                item.cartItemId === cartItemId ? { ...item, qty } : item
             )
         );
     };
 
-    // Remove item
-    const removeFromCart = (id) => {
-        setCart((prev) => prev.filter((item) => item.id !== id));
+    // Remove item by unique cart item identifier
+    const removeFromCart = (cartItemId) => {
+        setCart((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
     };
 
-    // Clear cart completely
+    // Clear cart entirely
     const clearCart = () => {
         removeItemFromLocalStorage(STORAGE_KEYS.CART);
         setCart([]);

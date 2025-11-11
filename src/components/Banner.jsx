@@ -10,13 +10,17 @@ const Banner = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllCategories();
-            if (res?.data) {
-                setCategories(res.data);
+            try {
+                const response = await getAllCategories();
+                if (response.success) {
+                    setCategories(response.data);
+                }
+            } catch (error) {
+                console.log("error get all cat ", error)
             }
         };
         fetchData();
-        const data = getItemFromLocalStorage("user-data")
+
         // console.log(data)
     }, []);
 

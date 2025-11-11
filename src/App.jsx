@@ -6,6 +6,7 @@ import Notfound from './pages/Notfound'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
 import { ToastContainer, toast } from 'react-toastify'
+import Order from './pages/Order'
 const App = () => {
   return (
     <>
@@ -13,6 +14,7 @@ const App = () => {
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Home />} />
+          <Route path="/order" element={<Order />} />
           <Route path='/products' element={<Products />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/*' element={<Notfound />} />

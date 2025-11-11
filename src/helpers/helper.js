@@ -8,5 +8,5 @@ export const getItemFromLocalStorage = (key) => {
 }
 
 export const removeItemFromLocalStorage = () => {
-    return localStorage.removeItem(key)
+    return localStorage.clear()
 }

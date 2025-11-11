@@ -37,6 +37,7 @@ const Login = () => {
                 name: username,
                 email: email,
                 password: password,
+                rememberMe
 
             })
 

@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getAllProduct } from "../services/product.service";
+import { getAllCategories } from "../services/category.service";
 import ProductDetailModal from "../components/ProductDeatilModal";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [page, setPage] = useState(1);
-    const [limit] = useState(12); // server-side
+    const [limit] = useState(12);
     const [totalPages, setTotalPages] = useState(1);
 
     const location = useLocation();
+    const navigate = useNavigate();
+
     const params = new URLSearchParams(location.search);
-    const category = params.get("category");
-    const discount = params.get("discount")
+    const category = params.get("category") || "";
+
+    const discountQuery = params.get("discount");
+    const discount = discountQuery ? JSON.parse(discountQuery) : false;
+
     const [showDetail, setShowDetail] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
-    console.log("discount", typeof JSON.parse(discount))//how to change to boolean
+    // ✅ Fetch categories
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const res = await getAllCategories();
+            if (res?.data) setCategories(res.data);
+        };
+        fetchCategories();
+    }, []);
+
+    // ✅ Fetch products
     const fetchData = async () => {
         const response = await getAllProduct(page, limit, category, discount);
 
@@ -36,16 +52,43 @@ const Products = () => {
         fetchData();
     }, [page, category]);
 
+    // ✅ Handle category dropdown change
+    const handleCategoryChange = (e) => {
+        const selected = e.target.value;
+
+        if (!selected) {
+            navigate("/products");
+        } else {
+            navigate(`/products?category=${selected}`);
+        }
+    };
+
     return (
         <div className="relative">
             <Navbar />
 
             <div className="p-6">
-                <h1 className="text-2xl font-semibold mb-4">
-                    {category ? `Category: ${category}` : "All Products"}
-                </h1>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-semibold">
+                        {category ? `Category: ${category}` : "All Products"}
+                    </h1>
 
-                {/* PRODUCT GRID */}
+                    {/* ✅ CATEGORY DROPDOWN */}
+                    <select
+                        value={category}
+                        onChange={handleCategoryChange}
+                        className="border p-2 rounded-lg bg-white shadow"
+                    >
+                        <option value="">All Categories</option>
+                        {categories.map((c) => (
+                            <option key={c._id} value={c.name}>
+                                {c.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* ✅ PRODUCT GRID */}
                 <div className="grid grid-cols-4 gap-6">
                     {products.length === 0 ? (
                         <div className="col-span-4 text-gray-500">
@@ -106,11 +149,9 @@ const Products = () => {
                     )}
                 </div>
 
-                {/* ✅ SERVER-SIDE PAGINATION */}
+                {/* ✅ PAGINATION */}
                 {totalPages > 1 && (
                     <div className="flex justify-center gap-2 mt-10">
-
-                        {/* Prev */}
                         <button
                             onClick={() => setPage(page - 1)}
                             disabled={page === 1}
@@ -119,25 +160,23 @@ const Products = () => {
                             Prev
                         </button>
 
-                        {/* Page Numbers */}
                         {[...Array(totalPages)].map((_, i) => {
-                            const pageNum = i + 1;
+                            const pn = i + 1;
                             return (
                                 <button
-                                    key={pageNum}
-                                    onClick={() => setPage(pageNum)}
+                                    key={pn}
+                                    onClick={() => setPage(pn)}
                                     className={`px-3 py-1 rounded 
-                                        ${page === pageNum
+                                        ${page === pn
                                             ? "bg-blue-600 text-white"
                                             : "bg-gray-800 text-white hover:bg-gray-700"
                                         }`}
                                 >
-                                    {pageNum}
+                                    {pn}
                                 </button>
                             );
                         })}
 
-                        {/* Next */}
                         <button
                             onClick={() => setPage(page + 1)}
                             disabled={page === totalPages}
@@ -145,11 +184,10 @@ const Products = () => {
                         >
                             Next
                         </button>
-
                     </div>
                 )}
-
             </div>
+
             <ProductDetailModal
                 open={showDetail}
                 onClose={() => setShowDetail(false)}
