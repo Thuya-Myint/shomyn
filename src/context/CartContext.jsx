@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import {
     getItemFromLocalStorage,
     setItemToLocalStorage,
+    clearItemFromLocalStorage,
     removeItemFromLocalStorage
 } from "../helpers/helper";
 import { STORAGE_KEYS } from "../config/config";

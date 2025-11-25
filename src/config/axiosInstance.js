@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_ROUTES, STORAGE_KEYS } from "./config";
-import { getItemFromLocalStorage, removeItemFromLocalStorage } from "../helpers/helper";
+import { getItemFromLocalStorage, } from "../helpers/helper";
 
 
 const axiosInstance = axios.create({
@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
     (error) => {
         if (error.response && [401, 403].includes(error.response.status)) {
             if (window.location.pathname !== "/login") {
-                removeItemFromLocalStorage()
+                clearItemFromLocalStorage()
                 window.location.href = "/login";
                 // window.location.reload()
             }

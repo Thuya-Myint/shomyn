@@ -1,13 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Notfound from './pages/Notfound'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
-import { ToastContainer, toast } from 'react-toastify'
 import Order from './pages/Order'
+import Setting from './pages/Setting'
+import { ToastContainer } from 'react-toastify'
+import { socket } from './socket'   // ✅ IMPORTANT
+
 const App = () => {
+
+  // ✅ Initialize socket connection ONCE in the root
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      console.log("✅ Socket connected:", socket.id);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.error("❌ Socket connection error:", err.message);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("connect_error");
+      socket.disconnect();
+    };
+  }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -17,8 +40,10 @@ const App = () => {
           <Route path="/order" element={<Order />} />
           <Route path='/products' element={<Products />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/setting' element={<Setting />} />
           <Route path='/*' element={<Notfound />} />
         </Routes>
+
         <ToastContainer
           position="top-right"
           autoClose={3000}

@@ -92,7 +92,7 @@ const Login = () => {
                             }}
                             autoFocus
                             placeholder='Username'
-                            className='capitalize p-2 px-8 border-2 w-full transition-all duration-300 placeholder:text-black/30
+                            className=' p-2 px-8 border-2 w-full transition-all duration-300 placeholder:text-black/30
                              focus:border-slate-400 bg-white/40 focus:bg-slate-100 rounded-md border-slate-200 outline-none'
                         />
                     </div>

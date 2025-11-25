@@ -15,6 +15,10 @@ export const navItems = [
         path: '/cart',
         title: 'Cart'
     },
+    {
+        path: '/setting',
+        title: 'Setting'
+    }
 
 ]
 

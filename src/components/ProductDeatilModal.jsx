@@ -39,6 +39,7 @@ const ProductDetailModal = ({ open, onClose, product }) => {
         const finalPrice = getHighestPrice();
 
 
+        console.log("product---", product)
         addToCart({
             id: product._id,
             name: product.name,
@@ -47,6 +48,7 @@ const ProductDetailModal = ({ open, onClose, product }) => {
             variant: selectedVariant?.color || null,
             image: selectedImage,
             qty: 1,
+            shopId: product.shopId
         });
 
         onClose();
