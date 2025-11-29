@@ -11,31 +11,31 @@ const Cart = () => {
     const { cart, updateQty, removeFromCart, clearCart } = useCart();
     const [loading, setLoading] = useState(false);
 
-    // Payment modal
+
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [savedCards, setSavedCards] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
     const userData = getItemFromLocalStorage(STORAGE_KEYS.USER_DATA);
-    // Total
+
     const totalAmount = cart.reduce(
         (acc, item) => acc + (item.subtotal ?? item.price * item.qty),
         0
     );
 
-    // Format card to XXXX XXXX XXXX 1234
+
     const formatCardNumber = (num) => {
         if (!num) return "";
         return num.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim();
     };
 
-    // Load saved cards on mount
+
     useEffect(() => {
         if (userData?.paymentMethods?.length) {
             setSavedCards(userData.paymentMethods);
         }
     }, []);
 
-    // Socket events
+
     useEffect(() => {
         socket.on("order_success", (res) => {
             alert(res.message);

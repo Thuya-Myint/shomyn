@@ -12,7 +12,7 @@ const Order = () => {
     const userData = getItemFromLocalStorage(STORAGE_KEYS.USER_DATA)
 
 
-    // ✅ Fetch user orders
+
     const fetchOrders = async () => {
         try {
             setLoading(true);
@@ -26,7 +26,7 @@ const Order = () => {
         }
     };
 
-    // ✅ Handle order cancel
+
     const handleCancelOrder = async (orderId) => {
         const confirmCancel = window.confirm("Are you sure you want to cancel this order?");
         if (!confirmCancel) return;
@@ -44,7 +44,7 @@ const Order = () => {
     };
 
     const userId = userData._id
-    // ✅ Listen for real-time updates
+
     useEffect(() => {
         fetchOrders();
 
@@ -55,7 +55,7 @@ const Order = () => {
         }
         joinUserRoom()
         socket.on("new_order", (newOrder) => {
-            // Only show this order if it belongs to the logged-in user
+
             if (newOrder.user.userId === userData._id) {
                 setOrders((prev) => [newOrder, ...prev]);
             }
